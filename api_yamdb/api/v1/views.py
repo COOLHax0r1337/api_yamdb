@@ -2,7 +2,7 @@ from django.contrib.auth import get_user_model
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.viewsets import ModelViewSet
 
-from .permissions import IsAdminOrMe
+from .permissions import IsAdminOrMe, IsAdminOrReadOnly, IsOwnerOrReadOnly
 from .serializers import UserSerializer
 
 
@@ -32,8 +32,7 @@ class TitleViewSet(viewsets.ModelViewSet):
     )
     serializer_class = TitleReadSerializer
     filterset_class = TitleFilter
-
-    # permission_classes =
+    permission_classes = (IsAdminOrReadOnly,)
 
     def get_serializer_class(self):
         if self.request.method in ('POST', 'PATCH',):
@@ -44,7 +43,7 @@ class TitleViewSet(viewsets.ModelViewSet):
 class CategoryViewSet(viewsets.ModelViewSet):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
-    # permission_classes =
+    permission_classes = (IsAdminOrReadOnly,)
     filter_backends = (filters.SearchFilter,)
     search_fields = ('name',)
 
@@ -63,7 +62,7 @@ class CategoryViewSet(viewsets.ModelViewSet):
 class GenreViewSet(viewsets.ModelViewSet):
     queryset = Genre.objects.all()
     serializer_class = GenreSerializer
-    # permission_classes =
+    permission_classes = (IsAdminOrReadOnly,)
     filter_backends = (filters.SearchFilter,)
     search_fields = ('name',)
 
@@ -81,8 +80,7 @@ class GenreViewSet(viewsets.ModelViewSet):
 
 class ReviewViewSet(viewsets.ModelViewSet):
     serializer_class = ReviewSerializer
-
-    # permission_classes = ...
+    permission_classes = (IsOwnerOrReadOnly,)
 
     def get_title(self):
         return get_object_or_404(Title, pk=self.kwargs.get('title_id'))
@@ -99,8 +97,7 @@ class ReviewViewSet(viewsets.ModelViewSet):
 
 class CommentViewSet(viewsets.ModelViewSet):
     serializer_class = CommentSerializer
-
-    # permission_classes = ...
+    permission_classes = (IsOwnerOrReadOnly,)
 
     def get_review(self):
         return get_object_or_404(Title, pk=self.kwargs.get('review_id'))
