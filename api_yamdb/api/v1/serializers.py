@@ -1,45 +1,53 @@
-from django.utils import timezone
-from rest_framework.validators import UniqueTogetherValidator
 from django.contrib.auth import get_user_model
 from django.core.validators import EmailValidator
+from django.utils import timezone
 from rest_framework import serializers
+from rest_framework.relations import SlugRelatedField
 from rest_framework.validators import UniqueValidator
 
-from .validators import validate_username
 from reviews.models import Category, Comment, Genre, Review, Title
-
+from .validators import validate_username
 
 User = get_user_model()
 
 
 class CommentSerializer(serializers.ModelSerializer):
-    review = serializers.SlugRelatedField(
-        slug_field='text',
-    )
-    author = serializers.SlugRelatedField(
-        slug_field='username',
+    author = SlugRelatedField(
+        default=serializers.CurrentUserDefault(),
+        read_only=True,
+        slug_field='username'
     )
 
     class Meta:
-        fields = '__all__'
         model = Comment
-        read_only_fields = ('review', 'author')
+        exclude = ('review',)
 
 
 class ReviewSerializer(serializers.ModelSerializer):
-    author = serializers.StringRelatedField()
+    title = serializers.SlugRelatedField(
+        slug_field='id',
+        queryset=Title.objects.all(),
+        required=False
+    )
+    author = SlugRelatedField(
+        default=serializers.CurrentUserDefault(),
+        read_only=True,
+        slug_field='username'
+    )
 
     class Meta:
-        fields = '__all__'
         model = Review
-        read_only_fields = ('author', 'title')
-        validators = [
-            UniqueTogetherValidator(
-                queryset=Review.objects.all(),
-                fields=('author', 'title'),
-                message='cannot post more'
-            )
-        ]
+        fields = '__all__'
+
+    def validate(self, data):
+        if self.context['request'].method == 'POST':
+            user = self.context['request'].user
+            title_id = self.context['view'].kwargs.get('title_id')
+            if Review.objects.filter(
+                    author_id=user.id, title_id=title_id
+            ).exists():
+                raise serializers.ValidationError('Отзыв уже оставлен.')
+        return data
 
 
 class CategorySerializer(serializers.ModelSerializer):
