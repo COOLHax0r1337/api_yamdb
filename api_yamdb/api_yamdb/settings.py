@@ -16,6 +16,10 @@ ALLOWED_HOSTS = ['*']
 
 # Application definition
 PROJECT_APPS = [
+    'api',
+    'reviews',
+    'rest_framework',
+    'django_filters',
     'api.apps.ApiConfig',
     'users.apps.UsersConfig',
 ]
@@ -27,8 +31,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'rest_framework',
 ] + PROJECT_APPS
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
