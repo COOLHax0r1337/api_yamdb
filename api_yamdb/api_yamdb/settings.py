@@ -1,5 +1,6 @@
-from pathlib import Path
 import os
+from pathlib import Path
+from datetime import timedelta
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -13,6 +14,14 @@ ALLOWED_HOSTS = ['*']
 
 
 # Application definition
+PROJECT_APPS = [
+    'api',
+    'reviews',
+    'rest_framework',
+    'django_filters',
+    'api.apps.ApiConfig',
+    'users.apps.UsersConfig',
+]
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -21,7 +30,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-]
+] + PROJECT_APPS
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -39,7 +49,7 @@ TEMPLATES_DIR = BASE_DIR / 'templates'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')],
+        'DIRS': [TEMPLATES_DIR],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -101,3 +111,27 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = ((BASE_DIR / 'static/'),)
+
+# Project settings
+EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
+
+EMAIL_FILE_PATH = os.path.join(BASE_DIR, 'sent_emails')
+
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+    ],
+
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ],
+    # 'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 10,
+}
+
+SIMPLE_JWT = {
+   'ACCESS_TOKEN_LIFETIME': timedelta(days=10),
+   'AUTH_HEADER_TYPES': ('Bearer',),
+}
+
+AUTH_USER_MODEL = 'users.User'
