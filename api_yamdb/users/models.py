@@ -1,11 +1,10 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
+from .managers import UserManager
+
 
 class User(AbstractUser):
-    """
-    Модель пользователя платформы.
-    """
     class Role(models.TextChoices):
         user = 'user', 'Пользователь'
         moderator = 'moderator', 'Модератор'
@@ -13,6 +12,7 @@ class User(AbstractUser):
 
     email = models.EmailField(
         verbose_name='Адрес электронной почты',
+        max_length=254,
         unique=True,
         blank=False,
         null=False,
@@ -40,6 +40,7 @@ class User(AbstractUser):
         choices=Role.choices,
         default=Role.user,
     )
+    objects = UserManager()
 
     class Meta:
         verbose_name = "Пользователь"
