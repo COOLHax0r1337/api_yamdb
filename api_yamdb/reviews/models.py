@@ -107,6 +107,7 @@ class Comment(models.Model):
     review = models.ForeignKey(
         Review,
         on_delete=models.CASCADE,
+        related_name='comments'
     )
     author = models.ForeignKey(
         User,
@@ -123,5 +124,3 @@ class Comment(models.Model):
 
     def __str__(self):
         return self.text
-
-
