@@ -1,3 +1,4 @@
+from django.contrib.auth import get_user_model
 from django.db import models
 from .validators import max_value_current_year
 from django.core.validators import MaxValueValidator, MinValueValidator
@@ -91,7 +92,7 @@ class Review(models.Model):
     )
 
     class Meta:
-        default_related_name = 'reveiws'
+        default_related_name = 'reviews'
         constraints = [
             models.UniqueConstraint(
                 fields=['author', 'title'],
@@ -122,3 +123,5 @@ class Comment(models.Model):
 
     def __str__(self):
         return self.text
+
+

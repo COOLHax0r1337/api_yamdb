@@ -1,10 +1,8 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth.tokens import default_token_generator
 from django.core.validators import EmailValidator
-from django.db import transaction
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError, NotFound
-from rest_framework.validators import UniqueValidator
 from rest_framework_simplejwt.tokens import RefreshToken
 
 from ..validators import validate_username
@@ -17,14 +15,12 @@ class SignUpSerializer(serializers.ModelSerializer):
         max_length=150,
         required=True,
         validators=[validate_username,
-                    # UniqueValidator(queryset=User.objects.all()),
                     ]
     )
     email = serializers.EmailField(
         max_length=150,
         required=True,
         validators=[EmailValidator(),
-                    # UniqueValidator(queryset=User.objects.all()),
                     ]
     )
 

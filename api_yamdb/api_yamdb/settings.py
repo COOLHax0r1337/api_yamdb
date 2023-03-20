@@ -19,8 +19,7 @@ PROJECT_APPS = [
     'reviews',
     'rest_framework',
     'django_filters',
-    'api.apps.ApiConfig',
-    'users.apps.UsersConfig',
+    'users',
 ]
 
 INSTALLED_APPS = [

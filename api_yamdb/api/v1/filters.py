@@ -18,5 +18,4 @@ class TitleFilter(django_filters.FilterSet):
             'category',
             'genre',
             'description',
-            'rating',
         )
