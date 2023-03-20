@@ -13,15 +13,6 @@ DEBUG = True
 ALLOWED_HOSTS = ['*']
 
 
-# Application definition
-PROJECT_APPS = [
-    'api',
-    'reviews',
-    'rest_framework',
-    'django_filters',
-    'users',
-]
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -29,8 +20,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_filters',
+    'rest_framework',
     'rest_framework_simplejwt',
-] + PROJECT_APPS
+    'api',
+    'reviews',
+    'users',
+]
 
 
 MIDDLEWARE = [
