@@ -18,7 +18,6 @@ PROJECT_APPS = [
     'api',
     'reviews',
     'rest_framework',
-    'rest_framework_simplejwt',
     'django_filters',
     'users',
 ]
@@ -30,6 +29,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework_simplejwt',
 ] + PROJECT_APPS
 
 
