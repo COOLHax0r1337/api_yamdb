@@ -60,7 +60,110 @@ python3 manage.py migrate
 ```
 python3 manage.py runserver
 ```
+### Примеры запросов: <br />
+Получение списка всех произведений
+```
+GET http://127.0.0.1:8000/api/v1/titles/
+Content-Type: application/json
+
+{
+  "count": 0,
+  "next": "string",
+  "previous": "string",
+  "results": [
+    {
+      "id": 0,
+      "name": "string",
+      "year": 0,
+      "rating": 0,
+      "description": "string",
+      "genre": [
+        {
+          "name": "string",
+          "slug": "string"
+        }
+      ],
+      "category": {
+        "name": "string",
+        "slug": "string"
+      }
+    }
+  ]
+}
+```
+Добавление произведения
+```
+POST http://127.0.0.1:8000/api/v1/titles/
+Content-Type: application/json
+
+{
+  "name": "string",
+  "year": 0,
+  "description": "string",
+  "genre": [
+    "string"
+  ],
+  "category": "string"
+}
+
+Response 201:
+
+{
+  "id": 0,
+  "name": "string",
+  "year": 0,
+  "rating": 0,
+  "description": "string",
+  "genre": [
+    {
+      "name": "string",
+      "slug": "string"
+    }
+  ],
+  "category": {
+    "name": "string",
+    "slug": "string"
+  }
+}
+```
+Создание пользователя
+```
+POST http://127.0.0.1:8000/api/v1/auth/signup/
+Content-Type: application/json
+
+{
+  "email": "user@example.com",
+  "username": "string"
+}
+
+Response 200:
+{
+  "email": "string",
+  "username": "string"
+}
+```
+
+Получение списка всех отзывов
+```
+GET http://127.0.0.1:8000/api/v1/titles/{title_id}/reviews/
+Content-Type: application/json
+
+{
+  "count": 0,
+  "next": "string",
+  "previous": "string",
+  "results": [
+    {
+      "id": 0,
+      "text": "string",
+      "author": "string",
+      "score": 1,
+      "pub_date": "2019-08-24T14:15:22Z"
+    }
+  ]
+}
+```
 Авторы: <br />
-[Кулхацкер 🤡](https://github.com/COOLHax0r1337) <br />
-[Crusader Kings Pro](https://github.com/BulimicMimic) <br />
+[Кулхацкер](https://github.com/COOLHax0r1337) <br />
+[Саня aka Давай тимлид оформляй проект!🤡](https://github.com/BulimicMimic) <br />
 [Faceit Mirage + hookah enjoyer](https://github.com/talasov)
