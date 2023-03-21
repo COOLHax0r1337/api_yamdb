@@ -51,13 +51,13 @@ class ReviewSerializer(serializers.ModelSerializer):
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
-        fields = ('name', 'slug')
+        exclude = ('id', )
 
 
 class GenreSerializer(serializers.ModelSerializer):
     class Meta:
         model = Genre
-        fields = ('name', 'slug')
+        exclude = ('id', )
 
 
 class TitleCreateSerializer(serializers.ModelSerializer):
@@ -70,9 +70,7 @@ class TitleCreateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Title
-        fields = (
-            'id', 'name', 'year', 'description', 'genre', 'category'
-        )
+        fields = '__all__'
 
     def validate_year(self, value):
         current_year = timezone.now().year
@@ -90,15 +88,7 @@ class TitleReadSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Title
-        fields = (
-            'id',
-            'name',
-            'year',
-            'category',
-            'genre',
-            'description',
-            'rating'
-        )
+        fields = '__all__'
 
 
 class UserSerializer(serializers.ModelSerializer):

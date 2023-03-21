@@ -24,7 +24,7 @@ class SignUpView(CreateAPIView):
         serializer.is_valid(raise_exception=True)
         headers = self.get_success_headers(serializer.data)
         try:
-            user, created = User.objects.get_or_create(
+            user, _ = User.objects.get_or_create(
                 username=request.data['username'],
                 email=request.data['email'],
             )

@@ -4,11 +4,18 @@ from .validators import max_value_current_year
 from django.core.validators import MaxValueValidator, MinValueValidator
 
 
+MIN_RATING = 1
+'''Минимальная оценка произведения int 1 из ТЗ.'''
+
+MAX_RATING = 10
+'''Максимальная оценка произведения int 10 из ТЗ.'''
+
 User = get_user_model()
 
 
 class Title(models.Model):
-    name = models.CharField(max_length=255, verbose_name='Название')
+    name = models.CharField(max_length=255, verbose_name='Название',
+                            db_index=True)
     year = models.IntegerField(
         validators=[max_value_current_year], verbose_name='Год выпуска'
     )
@@ -86,8 +93,8 @@ class Review(models.Model):
     )
     score = models.IntegerField(
         validators=(
-            MinValueValidator(1),
-            MaxValueValidator(10)
+            MinValueValidator(MIN_RATING),
+            MaxValueValidator(MAX_RATING)
         )
     )
 
