@@ -14,20 +14,6 @@ class User(AbstractUser):
         verbose_name='Адрес электронной почты',
         max_length=254,
         unique=True,
-        blank=False,
-        null=False,
-    )
-    first_name = models.CharField(
-        verbose_name='Имя',
-        max_length=150,
-        blank=True,
-        null=True,
-    )
-    last_name = models.CharField(
-        verbose_name='Фамилия',
-        max_length=150,
-        blank=True,
-        null=True,
     )
     bio = models.TextField(
         verbose_name='Биография',

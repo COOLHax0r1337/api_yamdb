@@ -23,9 +23,11 @@ router_v1.register(
     r'titles/(?P<title_id>\d+)/reviews/(?P<review_id>\d+)/comments',
     CommentViewSet, basename='comments'
 )
-
+auth_urls = [
+    path('signup/', SignUpView.as_view(), name='signup'),
+    path('token/', TokenView.as_view(), name='auth_token'),
+]
 urlpatterns = [
     path('', include(router_v1.urls)),
-    path('auth/signup/', SignUpView.as_view(), name='signup'),
-    path('auth/token/', TokenView.as_view(), name='auth_token'),
+    path('auth/', include(auth_urls)),
 ]

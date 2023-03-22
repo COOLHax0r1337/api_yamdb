@@ -17,7 +17,8 @@ class Title(models.Model):
     name = models.CharField(max_length=255, verbose_name='Название',
                             db_index=True)
     year = models.IntegerField(
-        validators=[max_value_current_year], verbose_name='Год выпуска'
+        validators=[max_value_current_year], verbose_name='Год выпуска',
+        db_index=True
     )
     description = models.CharField(
         max_length=255, null=True, blank=True, verbose_name='Описание'
@@ -25,7 +26,6 @@ class Title(models.Model):
     genre = models.ManyToManyField(
         'Genre',
         through='GenreTitle',
-        related_name='genre',
         verbose_name='Жанр'
     )
     category = models.ForeignKey(
@@ -33,7 +33,6 @@ class Title(models.Model):
         on_delete=models.SET_NULL,
         null=True,
         blank=True,
-        related_name='category',
         verbose_name='Категория'
     )
 
@@ -95,7 +94,8 @@ class Review(models.Model):
         validators=(
             MinValueValidator(MIN_RATING),
             MaxValueValidator(MAX_RATING)
-        )
+        ),
+        error_messages={'validators': 'Оценка должна быть int от 1 до 10'}
     )
 
     class Meta:
@@ -114,7 +114,6 @@ class Comment(models.Model):
     review = models.ForeignKey(
         Review,
         on_delete=models.CASCADE,
-        related_name='comments'
     )
     author = models.ForeignKey(
         User,
@@ -127,7 +126,7 @@ class Comment(models.Model):
     )
 
     class Meta:
-        default_related_name = 'Comment'
+        default_related_name = 'comments'
 
     def __str__(self):
         return self.text

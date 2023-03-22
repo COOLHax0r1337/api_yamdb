@@ -1,10 +1,11 @@
-from django.contrib.auth.models import UserManager as DefaultUserManager
+from django.contrib.auth.models import UserManager
 
 
-class UserManager(DefaultUserManager):
+class UserManager(UserManager):
     """
     Менеджер пользователей платформы.
     """
+
     def create_superuser(self,
                          username,
                          email=None,

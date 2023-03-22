@@ -12,6 +12,8 @@ from .serializers import TokenSerializer, SignUpSerializer
 
 User = get_user_model()
 
+DOMAIN_NAME = 'server@yamdbmail.com'
+
 
 class SignUpView(CreateAPIView):
     permission_classes = (AllowAny,)
@@ -22,15 +24,15 @@ class SignUpView(CreateAPIView):
         serializer.is_valid(raise_exception=True)
         headers = self.get_success_headers(serializer.data)
         user, _ = User.objects.get_or_create(
-            username=request.data['username'],
-            email=request.data['email'],
+            username=serializer.validated_data['username'],
+            email=serializer.validated_data['email'],
         )
 
         token = default_token_generator.make_token(user)
         send_mail(
             subject='token',
             message=token,
-            from_email='server@yamdbmail.com',
+            from_email=DOMAIN_NAME,
             recipient_list=[user.email],
             fail_silently=False,
         )
