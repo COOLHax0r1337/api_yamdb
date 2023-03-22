@@ -23,17 +23,11 @@ class SignUpView(CreateAPIView):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         headers = self.get_success_headers(serializer.data)
-        try:
-            user, _ = User.objects.get_or_create(
-                username=request.data['username'],
-                email=request.data['email'],
-            )
-        except IntegrityError:
-            raise ValidationError(
-                {'username': 'Поле должно быть уникальным.',
-                 'email': 'Поле должно быть уникальным.',
-                 }
-            )
+        user, _ = User.objects.get_or_create(
+            username=request.data['username'],
+            email=request.data['email'],
+        )
+
         token = default_token_generator.make_token(user)
         send_mail(
             subject='token',

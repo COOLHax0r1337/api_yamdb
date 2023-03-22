@@ -1,6 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth.tokens import default_token_generator
 from django.core.validators import EmailValidator
+from django.db.models import Q
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError, NotFound
 from rest_framework_simplejwt.tokens import RefreshToken
@@ -30,6 +31,18 @@ class SignUpSerializer(serializers.ModelSerializer):
             'username',
             'email',
         )
+
+    def validate(self, attrs):
+        if User.objects.filter(
+            (Q(username=attrs['username']) & ~Q(email=attrs['email']))
+            | (~Q(username=attrs['username']) & Q(email=attrs['email']))
+        ).exists():
+            raise ValidationError(
+                {'username': 'Поле должно быть уникальным.',
+                 'email': 'Поле должно быть уникальным.',
+                 }
+            )
+        return attrs
 
 
 class TokenSerializer(serializers.Serializer):
