@@ -8,10 +8,8 @@ from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
 from rest_framework.views import APIView
 
-from api_yamdb.settings import DOMAIN_NAME
+from api_yamdb.settings import DEFAULT_FROM_EMAIL
 from .serializers import TokenSerializer, SignUpSerializer
-
-EMAIL = 'server@' + DOMAIN_NAME[0]
 
 User = get_user_model()
 
@@ -33,7 +31,7 @@ class SignUpView(CreateAPIView):
         send_mail(
             subject='token',
             message=token,
-            from_email=EMAIL,
+            from_email=DEFAULT_FROM_EMAIL,
             recipient_list=[user.email],
             fail_silently=False,
         )

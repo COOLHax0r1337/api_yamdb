@@ -10,10 +10,7 @@ SECRET_KEY = 'p&l%385148kslhtyn^##a1)ilz@4zqj=rq&agdol^##zgl9(vs'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-DOMAIN_NAME = ['yamdb.com']
-
-ALLOWED_HOSTS = ['*'] + DOMAIN_NAME
-
+ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -111,9 +108,10 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = ((BASE_DIR / 'static/'),)
 
 # Project settings
+DOMAIN_NAME = 'yamdb.ru'
 EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
-
 EMAIL_FILE_PATH = os.path.join(BASE_DIR, 'sent_emails')
+DEFAULT_FROM_EMAIL = f'admin@{DOMAIN_NAME}'
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
