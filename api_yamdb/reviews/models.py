@@ -14,8 +14,7 @@ User = get_user_model()
 
 
 class Title(models.Model):
-    name = models.CharField(max_length=255, verbose_name='Название',
-                            db_index=True)
+    name = models.CharField(max_length=255, verbose_name='Название',)
     year = models.IntegerField(
         validators=[max_value_current_year], verbose_name='Год выпуска',
         db_index=True
@@ -26,6 +25,7 @@ class Title(models.Model):
     genre = models.ManyToManyField(
         'Genre',
         through='GenreTitle',
+        related_name='titles',
         verbose_name='Жанр'
     )
     category = models.ForeignKey(
@@ -33,6 +33,7 @@ class Title(models.Model):
         on_delete=models.SET_NULL,
         null=True,
         blank=True,
+        related_name='titles',
         verbose_name='Категория'
     )
 
