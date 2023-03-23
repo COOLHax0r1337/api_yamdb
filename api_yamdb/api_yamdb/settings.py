@@ -10,9 +10,11 @@ SECRET_KEY = 'p&l%385148kslhtyn^##a1)ilz@4zqj=rq&agdol^##zgl9(vs'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-DOMAIN_NAME = ['yamdb.com']
+DOMAIN_NAME = 'yamdb.com'
 
-ALLOWED_HOSTS = ['*'] + DOMAIN_NAME
+DEFAULT_FROM_EMAIL = f'admin@{DOMAIN_NAME}'
+
+ALLOWED_HOSTS = ['*']
 
 
 INSTALLED_APPS = [
