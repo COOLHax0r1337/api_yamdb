@@ -9,12 +9,9 @@ from rest_framework.permissions import AllowAny
 from rest_framework.views import APIView
 
 from api_yamdb.settings import DEFAULT_FROM_EMAIL
-from api_yamdb.settings import DOMAIN_NAME
 from .serializers import TokenSerializer, SignUpSerializer
 
 User = get_user_model()
-
-EMAIL = 'server@' + DOMAIN_NAME[0]
 
 
 class SignUpView(CreateAPIView):
